@@ -1,0 +1,133 @@
+server:
+  port: 8030
+  tomcat:
+    uri-encoding: UTF-8
+  servlet:
+    context-path: /auth-mini
+
+spring:
+  http:
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
+  datasource:
+    druid:
+      url: jdbc:mysql://47.104.82.140:3306/fsms?serverTimezone=GMT%2B8
+      username: root
+      password: LT001555
+      db-type: com.alibaba.druid.pool.DruidDataSource
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      # 初始连接数
+      initial-size: 5
+      # 最小连接数
+      min-idle: 10
+      # 最大连接数
+      max-active: 20
+      # 获取连接超时时间
+      max-wait: 5000
+      # 连接有效性检测时间
+      time-between-eviction-runs-millis: 60000
+      # 连接在池中最小生存的时间
+      min-evictable-idle-time-millis: 300000
+      # 连接在池中最大生存的时间
+      max-evictable-idle-time-millis: 900000
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      # 检测连接是否有效
+      validation-query: select 1
+      # 监控配置
+      web-stat-filter:
+        enabled: true
+        url-pattern: /*
+        exclusions: ['*.js','*.gif','*.jpg','*.png','*.css','*.ico','/druid/*']
+      # Druid内置提供了一个StatViewServlet用于展示Druid的统计信息
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        reset-enable: false
+        allow: 127.0.0.1
+        login-username: druid
+        login-password: druid
+      filter:
+        stat:
+          enabled: true
+          # 记录慢SQL
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: true
+        wall:
+          config:
+            multi-statement-allow: true
+  redis:
+    database: 0
+    host: 47.104.82.140
+    port: 6379
+    password: LT001555
+    timeout: 5000
+  profiles:
+    active: dev
+
+# 是否开启swagger
+swagger:
+  enabled: true
+
+# mybatis-plus相关配置
+mybatis-plus:
+  # xml扫描，多个目录用逗号或者分号分隔（告诉 Mapper 所对应的 XML 文件位置）
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    # 开启驼峰命名规则
+    map-underscore-to-camel-case: true
+    # 返回map时true:当查询数据为空时字段返回为null,false:不加这个查询数据为空时，字段将被隐藏
+    call-setters-on-nulls: true
+    # 打印执行的SQL
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # 以下配置均有默认值,可以不设置
+  global-config:
+    db-config:
+      #主键类型 AUTO:"数据库ID自增" INPUT:"用户输入ID",ID_WORKER:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID";
+      id-type: auto
+
+jwt:
+  # 密匙KEY
+  secret: JWTSecret
+  # 必须使用最少88位的Base64对该令牌进行编码
+  base64-secret: ZmQ0ZGI5NjQ0MDQwY2I4MjMxY2Y3ZmI3MjdhN2ZmMjNhODViOTg1ZGE0NTBjMGM4NDA5NzYxMjdjOWMwYWRmZTBlZjlhNGY3ZTg4Y2U3YTE1ODVkZDU5Y2Y3OGYwZWE1NzUzNWQ2YjFjZDc0NGMxZWU2MmQ3MjY1NzJmNTE0MzI=
+  # Header
+  tokenHeader: Authorization
+  # 令牌前缀
+  tokenPrefix: Bearer
+  # 过期时间 默认1小时 单位毫秒
+  expiration: 3600000
+  # 配置不需要认证的接口
+  # antMatchers: [/index,/login/**,/favicon.ico,/code]
+  # token 续期检查时间范围（默认10分钟，单位毫秒），在token即将过期的10分钟内用户操作了，则给用户的token续期1小时
+  detect: 1800000
+  # 续期时间范围，默认1小时，单位毫秒
+  renew: 3600000
+
+# 登录图形验证码有效时间 秒
+loginCode:
+  expiration: 180
+
+# 密码加密传输，前端公钥加密，后端私钥解密
+rsa:
+  private_key: MIIBUwIBADANBgkqhkiG9w0BAQEFAASCAT0wggE5AgEAAkEA0vfvyTdGJkdbHkB8mp0f3FE0GYP3AYPaJF7jUd1M0XxFSE2ceK3k2kw20YvQ09NJKk+OMjWQl9WitG9pB6tSCQIDAQABAkA2SimBrWC2/wvauBuYqjCFwLvYiRYqZKThUS3MZlebXJiLB+Ue/gUifAAKIg1avttUZsHBHrop4qfJCwAI0+YRAiEA+W3NK/RaXtnRqmoUUkb59zsZUBLpvZgQPfj1MhyHDz0CIQDYhsAhPJ3mgS64NbUZmGWuuNKp5coY2GIj/zYDMJp6vQIgUueLFXv/eZ1ekgz2Oi67MNCk5jeTF2BurZqNLR3MSmUCIFT3Q6uHMtsB9Eha4u7hS31tj1UWE+D+ADzp59MGnoftAiBeHT7gDMuqeJHPL4b+kC+gzV4FGTfhR9q3tTbklZkD2A==
+
+# 文件存储路径
+file:
+  mac:
+    path: ~/workspace/public/temp/fsms/data/file/
+    avatar: ~/workspace/public/temp/fsms/data/avatar/
+  linux:
+    path: /home/fsms/data/file/
+    avatar: /home/fsms/data/avatar/
+  windows:
+    path: C:\fsms\data\file\
+    avatar: C:\fsms\data\avatar\
+  # 文件大小 /M
+  maxSize: 100
+  avatarMaxSize: 5
+
