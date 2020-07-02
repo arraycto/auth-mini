@@ -13,9 +13,9 @@ spring:
       enabled: true
   datasource:
     druid:
-      url: jdbc:mysql://47.104.82.140:3306/fsms?serverTimezone=GMT%2B8
+      url: jdbc:mysql://47.104.82.140:3306/auth-mini?serverTimezone=GMT%2B8
       username: root
-      password: LT001555
+      password: xxxxxx
       db-type: com.alibaba.druid.pool.DruidDataSource
       driver-class-name: com.mysql.cj.jdbc.Driver
       # 初始连接数
@@ -64,7 +64,7 @@ spring:
     database: 0
     host: 47.104.82.140
     port: 6379
-    password: LT001555
+    password: xxxxxx
     timeout: 5000
   profiles:
     active: dev
