@@ -19,6 +19,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.www.NonceExpiredException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -48,6 +49,8 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
     private RsaConfig rsaConfig;
     @Autowired
     private RedisUtils redisUtils;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -90,6 +93,11 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
         try {
             password = RsaUtils.decryptByPrivateKey(rsaConfig.getPrivateKey(), password);
         } catch (Exception e) {
+            throw new BadCredentialsException("密码错误");
+        }
+
+        // 密码验证
+        if (!passwordEncoder.matches(password,selfUserEntity.getPassword())) {
             throw new BadCredentialsException("密码错误");
         }
 

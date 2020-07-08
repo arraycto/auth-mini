@@ -65,7 +65,7 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo(){
         return new ApiInfoBuilder()
-            .title("飞行安全评估系统——API文档")
+            .title("基于JWT的权限控制解决方案——API文档")
             .description("系统Restful API描述")
             .contact(new Contact("savior", "https://github.com/cvPorter", "cd.litong@icloud.com"))
             .version("1.0")
